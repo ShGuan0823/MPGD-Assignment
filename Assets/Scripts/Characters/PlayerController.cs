@@ -22,14 +22,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        MouseManager.instance.onMouseClicked += MoveToTarget;
+        MouseManager.instance.onMouseClicked += MoveToTargetByMouse;
         MouseManager.instance.onEnemyClicked += EventAttack;
     }
 
-
-
     private void Update()
     {
+        //MoveByKeyBoard();
         SwitchAnimation();
         lastAttackTime -= Time.deltaTime;
     }
@@ -39,11 +38,41 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed", agent.velocity.sqrMagnitude);
     }
 
-    public void MoveToTarget(Vector3 target)
+    public void MoveToTargetByMouse(Vector3 target)
     {
         StopAllCoroutines();
         agent.isStopped = false;
         agent.destination = target;
+    }
+
+    public void MoveByKeyBoard()
+    {
+        StopAllCoroutines();
+        agent.isStopped = false;
+        agent.enabled = false;
+        // move value
+        float xm = 0, ym = 0, zm = 0;
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            zm += Time.deltaTime * characterStatus.characterData.currentSpeed;
+
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            xm -= -1 * Time.deltaTime * characterStatus.characterData.currentSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            zm -= -1 * Time.deltaTime * characterStatus.characterData.currentSpeed;
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            xm += Time.deltaTime * characterStatus.characterData.currentSpeed;
+        }
+
+        transform.position = new Vector3(xm, ym, zm);
+        agent.enabled = true;
     }
 
     private void EventAttack(GameObject target)

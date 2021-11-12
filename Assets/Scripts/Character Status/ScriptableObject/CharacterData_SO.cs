@@ -14,4 +14,6 @@ public class CharacterData_SO : ScriptableObject
     public int baseDefence;
 
     public int currentDefence;
+
+    public float currentSpeed;
 }
