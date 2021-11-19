@@ -41,6 +41,18 @@ public class CharacterStatus : MonoBehaviour
 
         set { characterData.currentDefence = value; }
     }
+    // 当前速度
+    public float CurrentSpeed
+    {
+        get { if (characterData != null) { return characterData.currentSpeed; } return 0; }
+        set { characterData.currentSpeed = value; }
+    }
+    // 当前饥饿
+    public int Hungry
+    {
+        get { if (characterData != null) { return characterData.hungry; } return 0; }
+        set { characterData.hungry = value; }
+    }
     #endregion
 
     #region Character Combat

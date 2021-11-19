@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             zm += Time.deltaTime * characterStatus.characterData.currentSpeed;
-
         }
         else if (Input.GetKey(KeyCode.A))
         {

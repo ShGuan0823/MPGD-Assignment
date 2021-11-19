@@ -17,3 +17,4 @@ MonoBehaviour:
   baseDefence: 2
   currentDefence: 2
   currentSpeed: 0.5
+  hungry: 100
