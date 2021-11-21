@@ -1,49 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class TestPlayerController : MonoBehaviour
 {
-    private TestPlayerStatus playerStatus;
-    private Transform player;
+    public float moveSpeed;
+    public float rotateSpeed;
+    public GameObject projectile;
 
-    // Start is called before the first frame update
-    void Start()
+    private Vector2 mRotation;
+    private Vector2 mLook;
+    private Vector2 mMove;
+    private bool isPressRightBtn = false;
+
+    public void OnMoveByKeyBoard(InputAction.CallbackContext context)
     {
-        player = GetComponent<Transform>();
+        mMove = context.ReadValue<Vector2>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnLook(InputAction.CallbackContext context)
     {
-        PlayerMove();
+        mLook = context.ReadValue<Vector2>();
     }
-    // TODO: change speed
-    void PlayerMove()
+
+    public void OnTest(InputAction.CallbackContext context)
     {
-        float xMove = 0, yMove = 0, zMove = 0;
-
-        if (Input.GetKey(KeyCode.W))
+        if (context.Equals(null))
         {
-            // Up
-            zMove += 5 * Time.deltaTime;
+            isPressRightBtn = false;
+            Debug.Log("false");
         }
-        else if (Input.GetKey(KeyCode.S))
+        else
         {
-            // Down
-            zMove -= 5 * Time.deltaTime;
+            isPressRightBtn = true;
+            Debug.Log("true");
         }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            // Left
-            xMove -= 5 * Time.deltaTime;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            // Right
-            xMove += 5 * Time.deltaTime;
-        }
-
-        player.Translate(new Vector3(xMove, yMove, zMove));
     }
+
+    public void onTest2(InputAction.CallbackContext context)
+    {
+        isPressRightBtn = false;
+    }
+
+    public void Update()
+    {
+        Move();
+    }
+
+    private void Move()
+    {
+        // Update orientation first, then move. Otherwise move orientation will lag
+        // behind by one frame.
+        //Debug.Log(mLook);
+        Look(mLook);
+        MoveByKeyBoard(mMove);
+    }
+
+    private void Look(Vector2 rotate)
+    {
+        if (!isPressRightBtn)
+            return;
+        if (rotate.sqrMagnitude < 0.01)
+            return;
+        var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
+        mRotation.y += rotate.x * scaledRotateSpeed;
+        mRotation.x = Mathf.Clamp(mRotation.x - rotate.y * scaledRotateSpeed, -89, 89);
+        //Debug.Log("Rotation: " + mRotation);
+        transform.localEulerAngles = mRotation;
+    }
+
+    private void MoveByKeyBoard(Vector2 direction)
+    {
+        if (direction.sqrMagnitude < 0.01)
+            return;
+        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
+        move *= scaledMoveSpeed;
+        transform.Translate(move);
+        //transform.position += move * scaledMoveSpeed;
+    }
+
 }
