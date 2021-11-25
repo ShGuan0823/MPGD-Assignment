@@ -6,12 +6,19 @@ public class TestPlayerController : MonoBehaviour
 {
     public float moveSpeed;
     public float rotateSpeed;
-    public GameObject projectile;
+    Rigidbody rigid;
 
     private Vector2 mRotation;
     private Vector2 mLook;
     private Vector2 mMove;
+    private float forwardAmount;
+    private float rotateAmount;
     private bool isPressRightBtn = false;
+
+    private void Start()
+    {
+        rigid = GetComponent<Rigidbody>();
+    }
 
     public void OnMoveByKeyBoard(InputAction.CallbackContext context)
     {
@@ -47,6 +54,13 @@ public class TestPlayerController : MonoBehaviour
         Move();
     }
 
+    private void FixedUpdate()
+    {
+        rigid.velocity = forwardAmount * transform.forward * moveSpeed;
+        //rigid.MoveRotation(rigid.rotation * Quaternion.Euler(0, rotateAmount * rotateSpeed, 0));
+
+    }
+
     private void Move()
     {
         // Update orientation first, then move. Otherwise move orientation will lag
@@ -64,19 +78,21 @@ public class TestPlayerController : MonoBehaviour
             return;
         var scaledRotateSpeed = rotateSpeed * Time.deltaTime;
         mRotation.y += rotate.x * scaledRotateSpeed;
-        mRotation.x = Mathf.Clamp(mRotation.x - rotate.y * scaledRotateSpeed, -89, 89);
+        //mRotation.x = Mathf.Clamp(mRotation.x - rotate.y * scaledRotateSpeed, -89, 89);
         //Debug.Log("Rotation: " + mRotation);
         transform.localEulerAngles = mRotation;
+        //Debug.Log(Camera.current.name);
     }
 
     private void MoveByKeyBoard(Vector2 direction)
     {
         if (direction.sqrMagnitude < 0.01)
             return;
-        var scaledMoveSpeed = moveSpeed * Time.deltaTime;
-        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
-        move *= scaledMoveSpeed;
-        transform.Translate(move);
+        //var scaledMoveSpeed = moveSpeed * Time.deltaTime;
+        //var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.y);
+        var localMove = transform.InverseTransformDirection(new Vector3(direction.x, 0, direction.y));
+        forwardAmount = localMove.z;
+        rotateAmount = Mathf.Atan2(localMove.x, localMove.y);
         //transform.position += move * scaledMoveSpeed;
     }
 
