@@ -25,6 +25,22 @@ public class @MyInputAction : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""67bfec55-d825-4076-b08b-0918ef7c4f2a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Walk"",
+                    ""type"": ""Button"",
+                    ""id"": ""a3a6fe03-f430-417a-a806-fec60af1557c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -126,6 +142,28 @@ public class @MyInputAction : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""479dc2a2-8021-4ff8-b130-70324a524ca8"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b22487ac-7f5c-4240-9ce1-ed54bfcde60b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Walk"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -135,6 +173,8 @@ public class @MyInputAction : IInputActionCollection, IDisposable
         // GamePlay
         m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
         m_GamePlay_Movement = m_GamePlay.FindAction("Movement", throwIfNotFound: true);
+        m_GamePlay_Run = m_GamePlay.FindAction("Run", throwIfNotFound: true);
+        m_GamePlay_Walk = m_GamePlay.FindAction("Walk", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,11 +225,15 @@ public class @MyInputAction : IInputActionCollection, IDisposable
     private readonly InputActionMap m_GamePlay;
     private IGamePlayActions m_GamePlayActionsCallbackInterface;
     private readonly InputAction m_GamePlay_Movement;
+    private readonly InputAction m_GamePlay_Run;
+    private readonly InputAction m_GamePlay_Walk;
     public struct GamePlayActions
     {
         private @MyInputAction m_Wrapper;
         public GamePlayActions(@MyInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_GamePlay_Movement;
+        public InputAction @Run => m_Wrapper.m_GamePlay_Run;
+        public InputAction @Walk => m_Wrapper.m_GamePlay_Walk;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -202,6 +246,12 @@ public class @MyInputAction : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMovement;
+                @Run.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnRun;
+                @Walk.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnWalk;
+                @Walk.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnWalk;
+                @Walk.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnWalk;
             }
             m_Wrapper.m_GamePlayActionsCallbackInterface = instance;
             if (instance != null)
@@ -209,6 +259,12 @@ public class @MyInputAction : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
+                @Walk.started += instance.OnWalk;
+                @Walk.performed += instance.OnWalk;
+                @Walk.canceled += instance.OnWalk;
             }
         }
     }
@@ -216,5 +272,7 @@ public class @MyInputAction : IInputActionCollection, IDisposable
     public interface IGamePlayActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnWalk(InputAction.CallbackContext context);
     }
 }
