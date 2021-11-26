@@ -47,18 +47,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        inputActions.Enable();
-        inputActions.GamePlay.Movement.performed += Movement_performed;
-        inputActions.GamePlay.Run.performed += Run_performed;
-        inputActions.GamePlay.Walk.performed += Walk_performed;
     }
 
     private void OnDisable()
     {
-        inputActions.Disable();
-        inputActions.GamePlay.Movement.performed -= Movement_performed;
-        inputActions.GamePlay.Run.performed -= Run_performed;
-        inputActions.GamePlay.Walk.performed -= Walk_performed;
     }
 
     public void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -84,8 +76,8 @@ public class PlayerController : MonoBehaviour
 
         forwardAmount = localMove.z;
         rotateAmount = Mathf.Atan2(localMove.x, localMove.z);
-        Debug.Log(currentSpeed);
-        Debug.Log(isRun);
+        Debug.Log(transform.forward);
+        Debug.Log(transform.InverseTransformVector(transform.forward));
     }
 
     // TODO: set animator
