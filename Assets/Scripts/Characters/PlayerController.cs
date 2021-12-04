@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using Random = UnityEngine.Random;
+using UnityEngine.ProBuilder;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,18 +12,23 @@ public class PlayerController : MonoBehaviour
     Rigidbody rigid;
     MyInputAction inputActions;
     Animator anim;
+    Camera cam;
 
     private Vector2 move;
+    private Vector3 moveForward;
+
     private float forwardAmount;
     private float rotateAmount;
     private float currentSpeed;
-    private bool isRun;
+
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         inputActions = new MyInputAction();
+
+        cam = Camera.main;
     }
 
     private void Start()
@@ -41,16 +43,23 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigid.velocity = forwardAmount * transform.forward * currentSpeed;
-        rigid.MoveRotation(rigid.rotation * Quaternion.Euler(0, rotateAmount * rotateSpeed, 0));
+        rigid.MovePosition(rigid.position + moveForward * Time.deltaTime * currentSpeed);
     }
 
     private void OnEnable()
     {
+        inputActions.Enable();
+        inputActions.Player.Movement.performed += Movement_performed;
+        inputActions.Player.Run.performed += Run_performed;
+        inputActions.Player.Walk.performed += Walk_performed;
     }
 
     private void OnDisable()
     {
+        inputActions.Disable();
+        inputActions.Player.Movement.performed -= Movement_performed;
+        inputActions.Player.Run.performed -= Run_performed;
+        inputActions.Player.Walk.performed -= Walk_performed;
     }
 
     public void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -73,17 +82,26 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 wordlMove = new Vector3(direction.x, 0, direction.y);
         Vector3 localMove = transform.InverseTransformVector(wordlMove);
-
-        forwardAmount = localMove.z;
         rotateAmount = Mathf.Atan2(localMove.x, localMove.z);
-        Debug.Log(transform.forward);
-        Debug.Log(transform.InverseTransformVector(transform.forward));
+        Vector3 camProjection_z = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
+        float turnAngle = Vector3.Angle(new Vector3(0, 0, 1), camProjection_z);
+        moveForward = RotateDirection(wordlMove, turnAngle, Vector3.up);
+        Debug.Log("amount: " + rotateAmount);
+        Vector3 targetDir = Vector3.Slerp(transform.forward, moveForward, System.Math.Abs(rotateAmount * rotateSpeed));
+        Debug.Log("dir: " + targetDir + " " + moveForward);
+        rigid.rotation = Quaternion.LookRotation(targetDir, Vector3.up);
     }
 
     // TODO: set animator
     private void SetAnimator()
     {
 
+    }
+
+
+    private Vector3 RotateDirection(Vector3 forward, float angle, Vector3 axis)
+    {
+        return Quaternion.AngleAxis(angle, axis) * forward;
     }
 
 }
