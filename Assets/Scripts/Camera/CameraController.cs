@@ -7,27 +7,27 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
 
-    GameObject Object;
     MyInputAction inputActions;
-    //CinemachineVirtualCamera vCam;
+    CinemachineVirtualCamera virtualCam;
 
     private bool isHold;
 
-    private Quaternion rotation;
 
     private void Awake()
     {
-        Object = GetComponent<GameObject>();
-        //vCam = GetComponent<CinemachineVirtualCamera>();
+        virtualCam = GetComponent<CinemachineVirtualCamera>();
         inputActions = new MyInputAction();
     }
 
     private void Start()
     {
         isHold = false;
-        //rotation = vCam.transform.rotation;
     }
 
+    private void Update()
+    {
+        Debug.Log("vCam: " + virtualCam.transform.rotation);
+    }
 
     private void OnEnable()
     {
@@ -66,7 +66,8 @@ public class CameraController : MonoBehaviour
             return;
 
         // FIXME: limite the angle
-        transform.Rotate(-direction.y, direction.x, 0);
+        //Debug.Log(direction);
+        virtualCam.transform.eulerAngles += new Vector3(-direction.y, direction.x, 0);
     }
 
 

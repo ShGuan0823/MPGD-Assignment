@@ -86,9 +86,7 @@ public class PlayerController : MonoBehaviour
         Vector3 camProjection_z = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
         float turnAngle = Vector3.Angle(new Vector3(0, 0, 1), camProjection_z);
         moveForward = RotateDirection(wordlMove, turnAngle, Vector3.up);
-        Debug.Log("amount: " + rotateAmount);
         Vector3 targetDir = Vector3.Slerp(transform.forward, moveForward, System.Math.Abs(rotateAmount * rotateSpeed));
-        Debug.Log("dir: " + targetDir + " " + moveForward);
         rigid.rotation = Quaternion.LookRotation(targetDir, Vector3.up);
     }
 
