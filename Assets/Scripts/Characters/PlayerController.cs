@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         onMove(move);
+        SetAnimator();
     }
 
     private void FixedUpdate()
@@ -88,12 +89,13 @@ public class PlayerController : MonoBehaviour
         moveForward = RotateDirection(wordlMove, turnAngle, Vector3.up);
         Vector3 targetDir = Vector3.Slerp(transform.forward, moveForward, System.Math.Abs(rotateAmount * rotateSpeed));
         rigid.rotation = Quaternion.LookRotation(targetDir, Vector3.up);
+
     }
 
     // TODO: set animator
     private void SetAnimator()
     {
-
+        //anim.SetFloat("Speed", currentSpeed);
     }
 
 
@@ -102,4 +104,9 @@ public class PlayerController : MonoBehaviour
         return Quaternion.AngleAxis(angle, axis) * forward;
     }
 
+    private Vector3 Rotate(Vector3 source, Vector3 axis, float angle)
+    {
+        Quaternion q = Quaternion.AngleAxis(angle, axis);// 旋转系数
+        return q * source;// 返回目标点
+    }
 }

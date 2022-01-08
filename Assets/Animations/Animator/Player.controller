@@ -9,7 +9,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 6383a08b0ddb19543948954c6e075143, type: 3}
+    m_Motion: {fileID: 7400004, guid: 69d59c13a83a7c74a8cc0607ded391ec, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -17,7 +17,7 @@ BlendTree:
     m_DirectBlendParameter: Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: e145e4e6dd14bb24b95f704935b91a41, type: 3}
+    m_Motion: {fileID: 7400048, guid: bd1c2e9064da28e4fb0fe4a3f6ff4e33, type: 3}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -25,7 +25,7 @@ BlendTree:
     m_DirectBlendParameter: Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: abf17d9bb94bc1d49a5e56bddc992491, type: 3}
+    m_Motion: {fileID: 7400000, guid: 46d5b47e60163f148ada32ff97c7aa32, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -75,19 +75,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Attack
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Critical
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -218,12 +206,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 9218844081787759402}
     m_Position: {x: 370, y: 120, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 8365120149809928470}
-    m_Position: {x: 370, y: 0, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7917709959959478106}
-    m_Position: {x: 370, y: 240, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -271,9 +253,7 @@ AnimatorState:
   m_Name: LocalMotion
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: 464739690110459903}
-  - {fileID: 54575724885283535}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
