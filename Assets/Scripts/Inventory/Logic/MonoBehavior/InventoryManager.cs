@@ -8,4 +8,7 @@ public class InventoryManager : Singleton<InventoryManager>
     // TODO: 最后添加模版用于保存数据；
     [Header("Inventory Data")]
     public InventoryData_SO inventoryData;
+
+    [Header("Containers")]
+    public ContainerUI inventoryUI;
 }

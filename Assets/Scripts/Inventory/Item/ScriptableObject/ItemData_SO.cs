@@ -19,4 +19,7 @@ public class ItemData_SO : ScriptableObject
     public string description = "";
 
     public bool stackable;
+
+    [Header("Weapon")]
+    public GameObject weaponPrefab;
 }

@@ -12,6 +12,9 @@ public class CharacterStatus : MonoBehaviour
     [HideInInspector]
     public bool isCritical;
 
+    [Header("Weapon")]
+    public Transform weaponSlot;
+
     #region Read from CharacterData_SO
     // 上限血量
     public int MaxHealth
@@ -77,6 +80,14 @@ public class CharacterStatus : MonoBehaviour
         }
 
         return (int)coreDamage;
+    }
+
+    #endregion
+
+    #region Equip Weapon
+    public void EquipWeapon(ItemData_SO wepaon)
+    {
+
     }
 
     #endregion

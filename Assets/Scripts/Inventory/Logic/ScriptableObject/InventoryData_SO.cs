@@ -37,6 +37,11 @@ public class InventoryData_SO : ScriptableObject
         }
     }
 
+    public void Test()
+    {
+        Debug.Log("单例is OK");
+    }
+
 }
 
 [System.Serializable]

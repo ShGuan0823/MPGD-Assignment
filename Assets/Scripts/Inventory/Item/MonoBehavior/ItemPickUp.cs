@@ -10,7 +10,10 @@ public class ItemPickUp : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-
+            Debug.Log("捡到了");
+            InventoryManager.Instance.inventoryData.AddItem(itemData, itemData.itmeAmount);
+            InventoryManager.Instance.inventoryUI.RefreshUI();
+            Destroy(gameObject);
         }
     }
 }
