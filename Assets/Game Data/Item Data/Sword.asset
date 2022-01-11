@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34de1b55a3d7c403c8409e64212004bd, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemName: 
-  itemIcon: {fileID: 0}
-  itmeAmount: 0
+  itemType: 1
+  itemName: Sword
+  itemIcon: {fileID: 21300000, guid: d70fb81f53b2547ab889670af878f4dc, type: 3}
+  itmeAmount: 1
   description: 
   stackable: 0
+  weaponPrefab: {fileID: 3374655587733820889, guid: dfaa21d94ac21428eb7efd4f5ff8cbf5, type: 3}

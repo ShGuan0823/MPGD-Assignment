@@ -19,7 +19,6 @@ public class ItemUI : MonoBehaviour
         {
             icon.sprite = item.itemIcon;
             amount.text = itemAmount.ToString();
-            Debug.Log("icon: " + item.itemIcon + " amount: " + itemAmount);
             icon.gameObject.SetActive(true);
         }
         else
