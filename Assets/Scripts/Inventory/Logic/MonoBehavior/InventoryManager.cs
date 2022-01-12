@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
@@ -10,6 +11,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
         public RectTransform originalParent;
     }
+
 
     // TODO: 最后添加模版用于保存数据；
     [Header("Inventory Data")]
@@ -31,11 +33,25 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public DragData currentDrag;
 
+    [Header("UI Panel")]
+    public GameObject inventoryPanel;
+
+    bool isOpen = false;
+
     private void Start()
     {
         inventoryUI.RefreshUI();
         actionUI.RefreshUI();
         equipmentUI.RefreshUI();
+    }
+
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+        //    isOpen = !isOpen;
+        //    inventoryPanel.gameObject.SetActive(isOpen);
+        //}
     }
 
     #region check slot range

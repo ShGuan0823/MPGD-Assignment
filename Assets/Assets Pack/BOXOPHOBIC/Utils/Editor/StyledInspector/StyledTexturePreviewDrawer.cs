@@ -12,9 +12,26 @@ namespace Boxophobic.StyledGUI
         int channel = 0;
         ColorWriteMask channelMask = ColorWriteMask.All;
 
+        StyledTexturePreview a;
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            a = (StyledTexturePreview)attribute;
+
             var tex = (Texture)property.objectReferenceValue;
+
+            if (a.displayName != "")
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(-1);
+                GUILayout.Label(a.displayName, GUILayout.Width(EditorGUIUtility.labelWidth - 1));
+                tex = (Texture)EditorGUILayout.ObjectField(tex, typeof(Texture), false);
+                GUILayout.EndHorizontal();
+
+                GUILayout.Space(10);
+
+                property.objectReferenceValue = tex;
+            }
 
             if (tex == null)
             {

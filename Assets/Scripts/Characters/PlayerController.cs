@@ -13,11 +13,11 @@ public class PlayerController : MonoBehaviour
     MyInputAction inputActions;
     Animator anim;
     Camera cam;
+    CharacterStatus characterStatus;
 
     private Vector2 move;
     private Vector3 moveForward;
 
-    private float forwardAmount;
     private float rotateAmount;
     private float currentSpeed;
 
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         inputActions = new MyInputAction();
+        characterStatus = GetComponent<CharacterStatus>();
 
         cam = Camera.main;
     }
@@ -34,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         currentSpeed = moveSpeed;
+
+        GameManager.Instance.RegisterPlayer(characterStatus);
     }
 
     private void Update()

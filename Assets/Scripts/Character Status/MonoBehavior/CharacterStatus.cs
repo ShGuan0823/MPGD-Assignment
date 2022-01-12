@@ -50,11 +50,17 @@ public class CharacterStatus : MonoBehaviour
         get { if (characterData != null) { return characterData.currentSpeed; } return 0; }
         set { characterData.currentSpeed = value; }
     }
-    // 当前饥饿
-    public int Hungry
+    // 当前能量
+    public int CurrentEnergy
     {
-        get { if (characterData != null) { return characterData.hungry; } return 0; }
-        set { characterData.hungry = value; }
+        get { if (characterData != null) { return characterData.currentEnergy; } return 0; }
+        set { characterData.currentEnergy = value; }
+    }
+
+    public int MaxEnergy
+    {
+        get { if (characterData != null) { return characterData.maxEnergy; } return 0; }
+        set { characterData.maxEnergy = value; }
     }
     #endregion
 
@@ -66,7 +72,6 @@ public class CharacterStatus : MonoBehaviour
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
 
         //TODO: Update UI
-        //TODO: Update exp
     }
 
     private int CurrentDamage()
@@ -90,5 +95,20 @@ public class CharacterStatus : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Chage Data
+    public void ChangeHealth(int amount)
+    {
+        if (CurrentHealth + amount <= MaxHealth)
+            CurrentHealth += amount;
+        else
+            CurrentHealth = MaxHealth;
+    }
+
+    public void ChangeEnergy(int amount)
+    {
+
+    }
     #endregion
 }

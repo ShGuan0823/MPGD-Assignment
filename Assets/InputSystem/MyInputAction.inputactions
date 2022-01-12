@@ -218,6 +218,33 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "22a3d9ef-aaa4-4895-b7d7-bb427d6c69da",
+            "actions": [
+                {
+                    "name": "Bag",
+                    "type": "Button",
+                    "id": "a8b123b1-8d44-4a04-895f-41cb6f466f09",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3e6039bd-f69c-487d-a93a-0071408cb145",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1795169504563756733}
   - component: {fileID: 1152089544838209958}
   - component: {fileID: 7082412467892881157}
+  - component: {fileID: 5149570112220555409}
   m_Layer: 5
   m_Name: Action Btn
   m_TagString: Untagged
@@ -31,7 +32,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5021812695775394482}
+  - {fileID: 4307010203107127888}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -136,6 +137,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotType: 1
   itemUI: {fileID: 541856097104352265}
+--- !u!114 &5149570112220555409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105964463474839916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ca7c3bc5d7a41489f38d4846c5fe66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3172190254745728308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,9 +206,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33e38ab436b4d4878bfcf64fccc8ac03, type: 3}
---- !u!4 &5021812695775394482 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7616979160080977798, guid: 33e38ab436b4d4878bfcf64fccc8ac03, type: 3}
+--- !u!224 &4307010203107127888 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1711491893268694884, guid: 33e38ab436b4d4878bfcf64fccc8ac03, type: 3}
   m_PrefabInstance: {fileID: 3172190254745728308}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &541856097104352265 stripped

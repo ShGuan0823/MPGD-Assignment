@@ -231,6 +231,33 @@ public class @MyInputAction : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""22a3d9ef-aaa4-4895-b7d7-bb427d6c69da"",
+            ""actions"": [
+                {
+                    ""name"": ""Bag"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8b123b1-8d44-4a04-895f-41cb6f466f09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3e6039bd-f69c-487d-a93a-0071408cb145"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -245,6 +272,9 @@ public class @MyInputAction : IInputActionCollection, IDisposable
         m_Camera_MouseDrag = m_Camera.FindAction("MouseDrag", throwIfNotFound: true);
         m_Camera_Hold = m_Camera.FindAction("Hold", throwIfNotFound: true);
         m_Camera_Release = m_Camera.FindAction("Release", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Bag = m_UI.FindAction("Bag", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -388,6 +418,39 @@ public class @MyInputAction : IInputActionCollection, IDisposable
         }
     }
     public CameraActions @Camera => new CameraActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_Bag;
+    public struct UIActions
+    {
+        private @MyInputAction m_Wrapper;
+        public UIActions(@MyInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Bag => m_Wrapper.m_UI_Bag;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            {
+                @Bag.started -= m_Wrapper.m_UIActionsCallbackInterface.OnBag;
+                @Bag.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnBag;
+                @Bag.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnBag;
+            }
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Bag.started += instance.OnBag;
+                @Bag.performed += instance.OnBag;
+                @Bag.canceled += instance.OnBag;
+            }
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -399,5 +462,9 @@ public class @MyInputAction : IInputActionCollection, IDisposable
         void OnMouseDrag(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
         void OnRelease(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnBag(InputAction.CallbackContext context);
     }
 }
