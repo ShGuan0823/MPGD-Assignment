@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("vCam: " + virtualCam.transform.rotation);
+        //Debug.Log("vCam: " + virtualCam.transform.rotation);
     }
 
     private void OnEnable()

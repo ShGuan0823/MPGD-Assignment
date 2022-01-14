@@ -819,6 +819,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4882590064214274}
   - component: {fileID: 95528395651247964}
+  - component: {fileID: 7106024417682924363}
+  - component: {fileID: 8700999315894698400}
   m_Layer: 0
   m_Name: TurtleShell
   m_TagString: Untagged
@@ -852,7 +854,7 @@ Animator:
   m_GameObject: {fileID: 1837317425425208}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 56dd4edec19a3b04195448769c085dfc, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1b58d63f942126347865fbdde70e67c5, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -861,6 +863,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7106024417682924363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837317425425208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 126c1637057b74c798262e8c17d81a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightRadius: 5
+  isGuard: 0
+  lookAtTime: 5
+  patrolRange: 5
+  stoppingDistance: 5
+--- !u!136 &8700999315894698400
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837317425425208}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5837078
+  m_Height: 1.3206825
+  m_Direction: 1
+  m_Center: {x: -0.028598785, y: 0.16034126, z: 0}
 --- !u!1 &1914324128724412
 GameObject:
   m_ObjectHideFlags: 0

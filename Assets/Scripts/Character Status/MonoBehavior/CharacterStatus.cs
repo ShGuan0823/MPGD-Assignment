@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum CharacterStats { Idle, Walk, Run, Attack, Jump, Dead }
+//public enum EnemyStats { Idle, Patrol, Chase, Attack, Guard, Dead }
 public class CharacterStatus : MonoBehaviour
 {
     public CharacterData_SO characterData;
@@ -62,6 +64,19 @@ public class CharacterStatus : MonoBehaviour
         get { if (characterData != null) { return characterData.maxEnergy; } return 0; }
         set { characterData.maxEnergy = value; }
     }
+
+    public CharacterStats PlayerStats
+    {
+        get { if (characterData != null) { return characterData.playerStats; } return 0; }
+        set { characterData.playerStats = value; }
+    }
+
+    //public CharacterStats EnemyStats
+    //{
+    //    get { if (characterData != null) { return characterData.enemyStats; } return 0; }
+    //    set { characterData.enemyStats = value; }
+    //}
+
     #endregion
 
     #region Character Combat
@@ -70,8 +85,7 @@ public class CharacterStatus : MonoBehaviour
     {
         int damage = Mathf.Max(attacker.CurrentDamage() - defener.CurrentDefence, 0);
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
-
-        //TODO: Update UI
+        Debug.Log("damage: " + damage);
     }
 
     private int CurrentDamage()
@@ -90,9 +104,12 @@ public class CharacterStatus : MonoBehaviour
     #endregion
 
     #region Equip Weapon
-    public void EquipWeapon(ItemData_SO wepaon)
+    public void EquipWeapon(ItemData_SO weapon)
     {
-
+        if (weapon.weaponPrefab != null)
+        {
+            Instantiate(weapon.weaponPrefab, weaponSlot);
+        }
     }
 
     #endregion
@@ -108,7 +125,10 @@ public class CharacterStatus : MonoBehaviour
 
     public void ChangeEnergy(int amount)
     {
-
+        if (CurrentEnergy + amount <= MaxEnergy)
+            CurrentEnergy += amount;
+        else
+            CurrentEnergy = MaxEnergy;
     }
     #endregion
 }

@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - itemData: {fileID: 11400000, guid: a8238ace5e27645098e069746d9d5934, type: 2}
-    amount: 97
-  - itemData: {fileID: 11400000, guid: 60bb1ad4bcad84b5b990ad70ba39f70b, type: 2}
-    amount: 1
-  - itemData: {fileID: 11400000, guid: 60bb1ad4bcad84b5b990ad70ba39f70b, type: 2}
-    amount: 1
-  - itemData: {fileID: 11400000, guid: 60bb1ad4bcad84b5b990ad70ba39f70b, type: 2}
-    amount: 1
-  - itemData: {fileID: 11400000, guid: 67a9b9af85a3742abb28068a5964f0ea, type: 2}
-    amount: 1
+    amount: 89
+  - itemData: {fileID: 0}
+    amount: 0
+  - itemData: {fileID: 0}
+    amount: 0
+  - itemData: {fileID: 0}
+    amount: 0
+  - itemData: {fileID: 0}
+    amount: 0
   - itemData: {fileID: 0}
     amount: 0
   - itemData: {fileID: 0}

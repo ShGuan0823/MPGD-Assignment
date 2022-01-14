@@ -20,4 +20,8 @@ public class CharacterData_SO : ScriptableObject
     public int maxEnergy;
 
     public int currentEnergy;
+
+    public CharacterStats playerStats;
+
+    //public CharacterStats enemyStats;
 }

@@ -18,4 +18,5 @@ MonoBehaviour:
   itmeAmount: 1
   description: 
   stackable: 0
-  weaponPrefab: {fileID: 3374655587733820889, guid: dfaa21d94ac21428eb7efd4f5ff8cbf5, type: 3}
+  useableData: {fileID: 0}
+  weaponPrefab: {fileID: 8323805068449245138, guid: dda02d09dfd034fe5b8ed9d5f1c9e068, type: 3}
