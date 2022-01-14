@@ -50,6 +50,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
             Destroy(gameObject);
         else
             instance = (T)this;
+
     }
 
 

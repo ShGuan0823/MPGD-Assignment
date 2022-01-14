@@ -5,13 +5,16 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public enum EnemyStats { GUARD, PATROL, CHASE, DEAD, IDLE, ATTACK }
-public class EnemyController : MonoBehaviour
+[RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(CharacterStatus))]
+public class EnemyController : MonoBehaviour, IEndGameObserver
 {
     public EnemyStats enemyStats;
-    private Transform mTransform;
     private GameObject attackTarget;
+    private GameObject gameObject;
     private Animator anim;
     private CharacterStatus characterStatus;
+    //private CapsuleCollider collider;
 
     [Header("Basic Settings")]
     public float sightRadius;
@@ -26,6 +29,7 @@ public class EnemyController : MonoBehaviour
 
     private Vector3 wayPoint;
     private Vector3 guardPos;
+    private bool alive;
 
     // 动画控制
     bool isWalk, isChase, isFollow;
@@ -33,9 +37,11 @@ public class EnemyController : MonoBehaviour
 
     void Awake()
     {
-        mTransform = GetComponent<Transform>();
+        alive = true;
         anim = GetComponent<Animator>();
+        gameObject = GetComponent<GameObject>();
         characterStatus = GetComponent<CharacterStatus>();
+        //collider = GetComponent<CapsuleCollider>();
         guardPos = transform.position;
         remainLookAtTime = lookAtTime;
         lastAttackTime = characterStatus.attackData.coolDown;
@@ -53,16 +59,38 @@ public class EnemyController : MonoBehaviour
             GetNewWayPoint();
         }
     }
+    //private void OnEnable()
+    //{
+    //    GameManager.Instance.AddObserver(this);
+
+    //}
+
+    //private void OnDisable()
+    //{
+    //    GameManager.Instance.RemoveObserver(this);
+    //}
 
     private void Update()
     {
-        SwitchStates();
-        SetAnimation();
-        lastAttackTime -= Time.deltaTime;
+        CheckAlive();
+        if (alive)
+        {
+            SwitchStates();
+            SetAnimation();
+            lastAttackTime -= Time.deltaTime;
+        }
+
+    }
+
+    void CheckAlive()
+    {
+        if (characterStatus.CurrentHealth <= 0)
+            Dead();
     }
 
     void SwitchStates()
     {
+
         // 发现Player 切换CHASE
         if (FoundPlayer())
         {
@@ -79,9 +107,10 @@ public class EnemyController : MonoBehaviour
                 Patrol();
                 break;
             case EnemyStats.CHASE:
-                AttackPlayer();
+                Chase();
                 break;
             case EnemyStats.DEAD:
+                Dead();
                 break;
         }
     }
@@ -92,13 +121,17 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("Patrol", enemyStats == EnemyStats.PATROL);
         anim.SetBool("Chase", enemyStats == EnemyStats.CHASE);
         anim.SetBool("Follow", isFollow);
-        //anim.SetBool("Critical", characterStatus.isCritical);
+        anim.SetBool("Dead", enemyStats == EnemyStats.DEAD);
     }
 
     void Guard()
     {
         enemyStats = EnemyStats.GUARD;
-        transform.Translate((guardPos - transform.position) * Time.deltaTime * characterStatus.CurrentSpeed * 0.2f, Space.World);
+        if (Vector3.Distance(transform.position, guardPos) > 1)
+        {
+            transform.LookAt(guardPos);
+        }
+        transform.Translate((guardPos - transform.position) * Time.deltaTime * characterStatus.CurrentSpeed * 0.1f, Space.World);
     }
 
     void Patrol()
@@ -143,19 +176,21 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
-    void AttackPlayer()
+    void Chase()
     {
         //enemyStats = EnemyStats.CHASE;
         if (!FoundPlayer())
         {
-            enemyStats = EnemyStats.IDLE;
+
             //stop for watching
             if (remainLookAtTime > 0)
             {
+                enemyStats = EnemyStats.IDLE;
                 transform.Translate(new Vector3(0, 0, 0), Space.World);
                 remainLookAtTime -= Time.deltaTime;
             }
-            else if (isGuard)
+            remainLookAtTime = lookAtTime;
+            if (isGuard)
             {
                 enemyStats = EnemyStats.GUARD;
             }
@@ -181,7 +216,7 @@ public class EnemyController : MonoBehaviour
             {
                 enemyStats = EnemyStats.CHASE;
                 isFollow = true;
-                transform.Translate((attackTarget.transform.position - mTransform.position) * Time.deltaTime * characterStatus.CurrentSpeed * 0.2f, Space.World);
+                transform.Translate((attackTarget.transform.position - transform.position) * Time.deltaTime * characterStatus.CurrentSpeed * 0.2f, Space.World);
                 transform.LookAt(attackTarget.transform.position);
             }
         }
@@ -203,6 +238,17 @@ public class EnemyController : MonoBehaviour
             // 技能攻击
             anim.SetTrigger("Skill");
         }
+    }
+    void Dead()
+    {
+        Debug.Log("GG");
+        //collider.enabled;
+        transform.Translate(new Vector3(0, 0, 0), Space.World);
+        enemyStats = EnemyStats.DEAD;
+        alive = false;
+        SetAnimation();
+        Destroy(gameObject, 2f);
+        gameObject.SetActive(false);
     }
 
     bool TargetInAttackRange()
@@ -246,9 +292,19 @@ public class EnemyController : MonoBehaviour
     void Hit()
     {
         var targetStats = GameManager.Instance.playerStats;
-
-        targetStats.TakeDamage(characterStatus, targetStats);
+        if (Vector3.Distance(transform.position, GameManager.Instance.playerStats.transform.position) < characterStatus.attackData.attackRange)
+        {
+            targetStats.TakeDamage(characterStatus, targetStats);
+        }
     }
 
+    public void EndNotify()
+    {
+        Debug.Log("Game Over");
+        transform.Translate(new Vector3(0, 0, 0), Space.World);
+        enemyStats = EnemyStats.IDLE;
+        SetAnimation();
+        alive = false;
+    }
 }
 

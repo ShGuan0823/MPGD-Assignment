@@ -12,13 +12,15 @@ public class InventoryManager : Singleton<InventoryManager>
         public RectTransform originalParent;
     }
 
-
     // TODO: 最后添加模版用于保存数据；
     [Header("Inventory Data")]
+    public InventoryData_SO inventoryTemplate;
     public InventoryData_SO inventoryData;
 
+    public InventoryData_SO actionTemplate;
     public InventoryData_SO actionData;
 
+    public InventoryData_SO equipmentTemplate;
     public InventoryData_SO equipmentData;
 
     [Header("Containers")]
@@ -38,8 +40,21 @@ public class InventoryManager : Singleton<InventoryManager>
 
     bool isOpen = false;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        if (inventoryTemplate != null)
+            inventoryData = Instantiate(inventoryTemplate);
+        if (actionTemplate != null)
+            actionData = Instantiate(actionTemplate);
+        if (equipmentTemplate != null)
+            equipmentData = Instantiate(equipmentTemplate);
+        //DontDestroyOnLoad(this);
+    }
+
     private void Start()
     {
+        LoadData();
         inventoryUI.RefreshUI();
         actionUI.RefreshUI();
         equipmentUI.RefreshUI();
@@ -83,4 +98,18 @@ public class InventoryManager : Singleton<InventoryManager>
         return false;
     }
     #endregion
+
+    public void SaveData()
+    {
+        SaveManager.Instance.Save(inventoryData, inventoryData.name);
+        SaveManager.Instance.Save(actionData, actionData.name);
+        SaveManager.Instance.Save(equipmentData, equipmentData.name);
+    }
+
+    public void LoadData()
+    {
+        SaveManager.Instance.Load(inventoryData, inventoryData.name);
+        SaveManager.Instance.Load(actionData, actionData.name);
+        SaveManager.Instance.Load(equipmentData, equipmentData.name);
+    }
 }

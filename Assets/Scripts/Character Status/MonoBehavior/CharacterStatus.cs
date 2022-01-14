@@ -11,11 +11,20 @@ public class CharacterStatus : MonoBehaviour
     public CharacterData_SO characterData;
     public AttackData_SO attackData;
 
+    public CharacterData_SO templateData;
+
     [HideInInspector]
     public bool isCritical;
 
     [Header("Weapon")]
     public Transform weaponSlot;
+
+    private void Awake()
+    {
+        if (templateData != null)
+            characterData = Instantiate(templateData);
+    }
+
 
     #region Read from CharacterData_SO
     // 上限血量

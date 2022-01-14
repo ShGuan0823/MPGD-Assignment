@@ -15,7 +15,8 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   baseDefence: 2
-  currentDefence: 2
+  currentDefence: 1
   currentSpeed: 0.5
   maxEnergy: 100
-  currentEnergy: 90
+  currentEnergy: 100
+  playerStats: 1

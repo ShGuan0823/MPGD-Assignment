@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 using Math = System.Math;
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     Camera cam;
     CharacterStatus characterStats;
+    GameObject player;
 
     private Vector2 move;
     private Vector3 moveForward;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         inputActions = new MyInputAction();
         characterStats = GetComponent<CharacterStatus>();
+        player = GetComponent<GameObject>();
 
         cam = Camera.main;
     }
@@ -44,11 +47,19 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (characterStats.CurrentHealth <= 0)
+        {
+            characterStats.PlayerStats = CharacterStats.Dead;
+            GameManager.Instance.NotifyObservers();
+            GameOver();
+        }
         onMove(move);
         //Attack();
         SetAnimator();
         lastAttackTime -= Time.deltaTime;
     }
+
+
 
     private void FixedUpdate()
     {
@@ -73,7 +84,7 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Movement.performed -= Movement_performed;
         inputActions.Player.Run.performed -= Run_performed;
         inputActions.Player.Walk.performed -= Walk_performed;
-        inputActions.Player.Combat.performed += Combat_performed;
+        inputActions.Player.Combat.performed -= Combat_performed;
     }
 
     public void Movement_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -161,6 +172,7 @@ public class PlayerController : MonoBehaviour
                 //anim.SetTrigger("Attack");
                 break;
             case CharacterStats.Dead:
+                anim.SetBool("Dead", true);
                 break;
         }
 
@@ -179,5 +191,51 @@ public class PlayerController : MonoBehaviour
             || characterStats.PlayerStats == CharacterStats.Run)
             return true;
         return false;
+    }
+
+    // Animation Event
+    void Hit()
+    {
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemys)
+        {
+            if (InAttackRange(enemy))
+            {
+                enemy.GetComponent<CharacterStatus>().TakeDamage(GameManager.Instance.playerStats, enemy.GetComponent<CharacterStatus>());
+            }
+        }
+        Debug.Log("测试");
+
+    }
+
+    private bool InAttackRange(GameObject target)
+    {
+        // 与敌人的距离
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+        // 玩家正前方的向量
+        Vector3 norVec = transform.rotation * Vector3.forward;
+        // 玩家与敌人的方向向量
+        Vector3 temVec = target.transform.position - transform.position;
+        // 求两个向量的夹角
+        float angle = Mathf.Acos(Vector3.Dot(norVec.normalized, temVec.normalized)) * Mathf.Rad2Deg;
+        if (distance < GameManager.Instance.playerStats.attackData.attackRange)
+        {
+            // 绘制扇形区域（绘制时取消注释）
+            //ToDrawSectorSolid(transform, transform.localPosition, SkillJiaodu, SkillDistance);
+
+            if (angle <= 120 * 0.5f)
+            {
+                Debug.Log("敌人出现在扇形范围内！");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void GameOver()
+    {
+        GameManager.Instance.playerStats = null;
+        Destroy(gameObject, 2f);
+        //gameObject.SetActive(false);
     }
 }

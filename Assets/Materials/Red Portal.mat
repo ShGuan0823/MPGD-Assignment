@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Occlusion
-  m_Shader: {fileID: -6465566751694194690, guid: b2aa7662183bb4733b78f02fb598ece4, type: 3}
+  m_Name: Red Portal
+  m_Shader: {fileID: -6465566751694194690, guid: f39013a79ee574b1599537cb09df9b02, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_caaaa09db6f04e8cb40421c70aea2df4:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -32,8 +36,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_3372d521f49d426795d2acab4b086706: 0.5
-    - Vector1_7fdc60a4ee7d4e2abca3d1689d0eb8c3: 1
+    - Vector1_94faaf6458c24b619e7e81a815cbe1cc: 0.2
+    - Vector1_f88d3ed7da9c4072ac2374d5e777e566: 42.2
     m_Colors:
-    - Color_55e76fd6258b4265878da022129d1b3d: {r: 0.32894266, g: 0.9056604, b: 0.90007126, a: 1}
+    - Color_82c67c2586884f7786ee432029e57100: {r: 1, g: 0.36320752, b: 0.37594062, a: 0}
   m_BuildTextureStacks: []

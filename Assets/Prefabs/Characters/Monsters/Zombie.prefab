@@ -1108,10 +1108,9 @@ GameObject:
   - component: {fileID: 7729731931182763881}
   - component: {fileID: 4879693213919336213}
   - component: {fileID: 1399705932150684956}
-  - component: {fileID: 1497299314121085043}
   m_Layer: 0
   m_Name: Zombie
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1201,6 +1200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: d21c84860161b4bcbb2d1daba56f95bf, type: 2}
   attackData: {fileID: 11400000, guid: d8184d057b0444af79f49317b8a4022a, type: 2}
+  templateData: {fileID: 0}
   isCritical: 0
   weaponSlot: {fileID: 0}
 --- !u!114 &1399705932150684956
@@ -1215,25 +1215,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126c1637057b74c798262e8c17d81a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStats: 0
+  enemyStats: 1
   sightRadius: 5
-  isGuard: 1
+  isGuard: 0
   lookAtTime: 5
-  patrolRange: 0
+  patrolRange: 10
   stoppingDistance: 1
---- !u!65 &1497299314121085043
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885013324647653657}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2.2093153, z: 1}
-  m_Center: {x: 0, y: 1.1312346, z: 0}
 --- !u!1 &1904037734713918058
 GameObject:
   m_ObjectHideFlags: 0

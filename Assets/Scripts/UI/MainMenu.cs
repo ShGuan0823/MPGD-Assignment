@@ -10,13 +10,14 @@ public class MainMenu : MonoBehaviour
     Button quitBtn;
 
     MyInputAction inputActions;
+    TransitionPoint transitionPoint;
 
     void Awake()
     {
         newGameBtn = transform.GetChild(1).GetChild(0).GetComponent<Button>();
         continueBtn = transform.GetChild(1).GetChild(1).GetComponent<Button>();
         quitBtn = transform.GetChild(1).GetChild(2).GetComponent<Button>();
-
+        transitionPoint = new TransitionPoint();
         inputActions = new MyInputAction();
     }
 
@@ -37,9 +38,14 @@ public class MainMenu : MonoBehaviour
         NewGame();
     }
 
-    void NewGame()
+    public void NewGame()
     {
         Debug.Log("new game");
+        transitionPoint.sceneName = "Qijian Shangguan";
+        transitionPoint.transitionType = TransitionPoint.TransitionType.DifferentScene;
+        transitionPoint.desitiantionTag = TransitionDesitination.DesitiantionTag.ENTER;
+        SceneController.Instance.TransitionToDesitination(transitionPoint);
+
     }
 
     void ContinueGame()

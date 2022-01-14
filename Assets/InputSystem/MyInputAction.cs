@@ -356,6 +356,52 @@ public class @MyInputAction : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Test"",
+            ""id"": ""201e6ed6-759e-4af5-9808-efc98d847f04"",
+            ""actions"": [
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""fb7cd120-3dfe-459a-be75-f308e54eee75"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Load"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb947a0e-68e4-4956-ab88-1524c0012f34"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""942b260e-9cd8-4954-b9d8-6f26978991eb"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""811f3a40-234d-4d49-8aa0-6437606601b2"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Load"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -378,6 +424,10 @@ public class @MyInputAction : IInputActionCollection, IDisposable
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Enter = m_Menu.FindAction("Enter", throwIfNotFound: true);
         m_Menu_Move = m_Menu.FindAction("Move", throwIfNotFound: true);
+        // Test
+        m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+        m_Test_Save = m_Test.FindAction("Save", throwIfNotFound: true);
+        m_Test_Load = m_Test.FindAction("Load", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -603,6 +653,47 @@ public class @MyInputAction : IInputActionCollection, IDisposable
         }
     }
     public MenuActions @Menu => new MenuActions(this);
+
+    // Test
+    private readonly InputActionMap m_Test;
+    private ITestActions m_TestActionsCallbackInterface;
+    private readonly InputAction m_Test_Save;
+    private readonly InputAction m_Test_Load;
+    public struct TestActions
+    {
+        private @MyInputAction m_Wrapper;
+        public TestActions(@MyInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Save => m_Wrapper.m_Test_Save;
+        public InputAction @Load => m_Wrapper.m_Test_Load;
+        public InputActionMap Get() { return m_Wrapper.m_Test; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+        public void SetCallbacks(ITestActions instance)
+        {
+            if (m_Wrapper.m_TestActionsCallbackInterface != null)
+            {
+                @Save.started -= m_Wrapper.m_TestActionsCallbackInterface.OnSave;
+                @Save.performed -= m_Wrapper.m_TestActionsCallbackInterface.OnSave;
+                @Save.canceled -= m_Wrapper.m_TestActionsCallbackInterface.OnSave;
+                @Load.started -= m_Wrapper.m_TestActionsCallbackInterface.OnLoad;
+                @Load.performed -= m_Wrapper.m_TestActionsCallbackInterface.OnLoad;
+                @Load.canceled -= m_Wrapper.m_TestActionsCallbackInterface.OnLoad;
+            }
+            m_Wrapper.m_TestActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Save.started += instance.OnSave;
+                @Save.performed += instance.OnSave;
+                @Save.canceled += instance.OnSave;
+                @Load.started += instance.OnLoad;
+                @Load.performed += instance.OnLoad;
+                @Load.canceled += instance.OnLoad;
+            }
+        }
+    }
+    public TestActions @Test => new TestActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -624,5 +715,10 @@ public class @MyInputAction : IInputActionCollection, IDisposable
     {
         void OnEnter(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface ITestActions
+    {
+        void OnSave(InputAction.CallbackContext context);
+        void OnLoad(InputAction.CallbackContext context);
     }
 }

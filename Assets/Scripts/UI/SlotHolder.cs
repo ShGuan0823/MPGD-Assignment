@@ -42,6 +42,14 @@ public class SlotHolder : MonoBehaviour, IPointerClickHandler
 
     public void UpdateItemUI()
     {
+        //if (InventoryManager.Instance == null)
+        //{
+        //    Debug.Log("?");
+        //}
+        //else
+        //{
+        //    Debug.Log("not null");
+
         switch (slotType)
         {
             case SlotType.BAG:
@@ -53,9 +61,13 @@ public class SlotHolder : MonoBehaviour, IPointerClickHandler
             case SlotType.EQUIPMENT:
                 itemUI.Bag = InventoryManager.Instance.equipmentData;
                 break;
+                //case SlotType.WEAPON:
+                //    itemUI.Bag = InventoryManager.Instance.weaponData;
+                //    break;
         }
 
         var item = itemUI.Bag.items[itemUI.Index];
         itemUI.SetupItemUI(item.itemData, item.amount);
+        //}
     }
 }
